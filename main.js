@@ -199,18 +199,19 @@ function toggleMenu() {
 
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
+    const responseEl = document.getElementById("formResponse");
   
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
   
-      const name = document.querySelector('input[name="name"]').value;
-      const email = document.querySelector('input[name="email"]').value;
-      const message = document.querySelector('textarea[name="message"]').value;
+      const name = document.querySelector('input[name="name"]').value.trim();
+      const email = document.querySelector('input[name="email"]').value.trim();
+      const message = document.querySelector('textarea[name="message"]').value.trim();
   
       const formData = { name, email, message };
   
       try {
-        const response = await fetch("https://nakul-portfolio-l2xr.onrender.com/", {
+        const response = await fetch("https://nakul-portfolio-l2xr.onrender.com/api/contact", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -219,14 +220,14 @@ function toggleMenu() {
         });
   
         if (response.ok) {
-          alert("✅ Message sent successfully!");
+          responseEl.textContent = "✅ Message sent successfully!";
           form.reset();
         } else {
-          alert("❌ Failed to send message. Try again.");
+          responseEl.textContent = "❌ Failed to send message. Try again.";
         }
       } catch (err) {
         console.error("Error:", err);
-        alert("❌ Error occurred.");
+        responseEl.textContent = "❌ Network error. Please try again later.";
       }
     });
   });
